@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Badante Strus-Halyna (OFFLINE DESKTOP)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
+        /* Strict fix for any desktop scroll-lock or hidden overflow issue */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            min-height: 100vh !important;
+            height: auto !important;
+            background-color: #0F0F0F !important;
+            color: #E5E5E5 !important;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            overflow-y: auto !important; /* Forces normal vertical browser scroll-bar */
+            scroll-behavior: smooth;
+        }
+
+        /* Styling helpers */
+        .text-gold { color: #C5A059; }
+        .bg-gold-light { background-color: rgba(197, 160, 89, 0.08); }
+        .border-gold { border-color: rgba(197, 160, 89, 0.2); }
+        
+        /* Custom scrollbar for beautiful dark aesthetic */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2A2A2A;
+            border-radius: 5px;
+            border: 2px solid #111111;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3A3A3A;
+        }
+    </style>
+</head>
+<body class="pb-24 antialiased">
+    <!-- Top premium golden gradient line -->
+    <div class="h-[3px] bg-gradient-to-r from-transparent via-[#C5A059] to-transparent w-full"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
+        
+        <!-- App Main Header Branding -->
+        <header class="flex flex-col lg:flex-row items-start lg:items-center justify-between pb-6 border-b border-gold/25 gap-6">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 bg-[#C5A059]/15 text-[#C5A059] border border-[#C5A059]/30 rounded text-[9px] font-bold uppercase tracking-[0.2em]">
+                        Gestione Portable Offline
+                    </span>
+                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded text-[9px] font-bold uppercase tracking-[0.1em] flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span>
+                        NESSUNO SCAMBIO DATI ESTERNO
+                    </span>
+                </div>
+                <h1 class="text-3xl font-serif italic text-white mt-1.5">Gestione Badante Strus-Halyna</h1>
+                <p class="text-sm text-[#A0A0A0] mt-0.5">Applicativo desktop autonomo. Tutti i dati sono memorizzati in modo anonimo e sicuro all'interno del tuo browser.</p>
+            </div>
+            
+            <div class="bg-[#161616] border border-gold/15 p-4 rounded-2xl flex items-center gap-3 max-w-sm">
+                <div class="p-3 bg-[#C5A059]/10 rounded-xl text-[#C5A059]">
+                    <i data-lucide="shield" class="w-6 h-6"></i>
+                </div>
+                <div class="text-xs">
+                    <strong class="font-bold text-white block">Salvataggio Locale Attivo</strong>
+                    <span class="text-[#A0A0A0]">Nessun server esterno. Puoi usare l'app anche staccando la connessione internet.</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Grid Layout - Perfect Alignment and Width on both Wide Desktop and Mobile -->
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- LEFT COLUMN (4 Cols): Inputs, Settings, Rules, Accruals -->
+            <aside class="lg:col-span-4 space-y-6">
+                
+                <!-- Contract Settings Card -->
+                <div class="bg-[#161616] p-6 rounded-2xl border border-gold/15 shadow-xl space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-white border-b border-white/5 pb-2.5 flex items-center gap-2">
+                        <i data-lucide="settings" class="w-4 h-4 text-[#C5A059]"></i> 
+                        Configurazione Contratto
+                    </h2>
+                    
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <label class="block text-[#A0A0A0] mb-1 font-medium select-none">Nome Badante/Caregiver</label>
+                            <input type="text" id="cfgName" class="w-full bg-[#202020] text-white border border-gold/20 focus:border-[#C5A059] p-2.5 rounded-xl transition outline-none" value="Strus-Halyna">
+                        </div>
+                        <div>
+                            <label class="block text-[#A0A0A0] mb-1 font-medium select-none">Stipendio Fisso Mensile (€)</label>
+                            <input type="number" id="cfgSalary" class="w-full bg-[#202020] text-white border border-gold/20 focus:border-[#C5A059] p-2.5 rounded-xl transition outline-none" value="1079">
+                        </div>
+                        <div>
+                            <label class="block text-[#A0A0A0] mb-1 font-medium select-none">Paga Oraria Base (€)</label>
+                            <input type="number" step="0.05" id="cfgHourRate" class="w-full bg-[#202020] text-white border border-gold/20 focus:border-[#C5A059] p-2.5 rounded-xl transition outline-none" value="8.3">
+                        </div>
+                        <div>
+                            <label class="block text-[#A0A0A0] mb-1 font-medium select-none">Ore Settimanali Concordate</label>
+                            <input type="number" id="cfgHours" class="w-full bg-[#202020] text-white border border-gold/20 focus:border-[#C5A059] p-2.5 rounded-xl transition outline-none" value="30">
+                        </div>
+                        <div>
+                            <label class="block text-[#A0A0A0] mb-1 font-medium select-none">Coefficiente INPS (€/ora stima)</label>
+                            <input type="number" step="0.01" id="cfgInpsCoeff" class="w-full bg-[#202020] text-white border border-gold/20 focus:border-[#C5A059] p-2.5 rounded-xl transition outline-none" value="1.05">
+                        </div>
+                        
+                        <button onclick="saveConfig()" class="w-full py-3 bg-[#C5A059] text-[#0F0F0F] font-black uppercase tracking-wider rounded-xl hover:bg-[#D4B475] text-[11px] transition duration-200 cursor-pointer shadow-md">
+                            Salva e Ricalcola
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Accruals Law Calculations (13esima, TFR, INPS) -->
+                <div class="bg-[#161616] p-6 rounded-2xl border border-gold/15 shadow-xl space-y-4">
+                    <h3 class="text-xs font-bold uppercase text-[#C5A059] tracking-wider border-b border-white/5 pb-2">
+                        💡 Ratei Accantonamenti Legge
+                    </h3>
+                    <div class="space-y-3 text-xs leading-relaxed">
+                        <div class="flex justify-between items-center border-b border-white/5 pb-1.5">
+                            <span class="text-[#A0A0A0]">13esima Mensilità stima:</span>
+                            <span class="text-white font-mono font-bold" id="lblThirteenth">€ 0.00/mese</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-white/5 pb-1.5">
+                            <span class="text-[#A0A0A0]">Liquidazione TFR accantonato:</span>
+                            <span class="text-white font-mono font-bold" id="lblTfr">€ 0.00/mese</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-white/5 pb-1.5">
+                            <span class="text-[#A0A0A0]">Contributi INPS Trimestre stima:</span>
+                            <span class="text-amber-400 font-mono font-bold" id="lblInps">€ 0.00</span>
+                        </div>
+                        <p class="text-[10px] text-[#707070] italic mt-2">
+                            * Proiezioni automatiche calcolate in base al contratto nazionale lavoratori domestici vigenti.
+                        </p>
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- RIGHT COLUMN (8 Cols): Status Cards, Reminders (Actions), and Expenses Directory -->
+            <section class="lg:col-span-8 space-y-6">
+                
+                <!-- Quick Cost Budget Snapshot Widget -->
+                <div class="bg-gradient-to-r from-[#C5A059]/15 to-[#C5A059]/5 border border-gold/20 p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
+                    <div class="space-y-1">
+                        <span class="text-[9px] font-mono text-[#C5A059] uppercase tracking-[0.25em] font-bold">COSTO MENSILE DI RIFERIMENTO</span>
+                        <h3 class="text-xl text-white font-serif italic" id="lblCaregiverTag">Badante Strus-Halyna</h3>
+                        <p class="text-3xl font-serif text-[#C5A059] font-black" id="lblMainStipendio">€ 0,00</p>
+                    </div>
+                    <div class="p-3 bg-[#C5A059]/10 border border-[#C5A059]/30 rounded-2xl text-[#C5A059] shrink-0 self-end sm:self-auto">
+                        <i data-lucide="coins" class="w-8 h-8"></i>
+                    </div>
+                </div>
+
+                <!-- NEW: Active Deadlines & Reminders Interactive Desk Widget -->
+                <div class="bg-[#161616] p-6 rounded-2xl border-2 border-[#C5A059]/40 shadow-xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-white/5 pb-2.5">
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                            <i data-lucide="bell" class="w-4 h-4 text-[#C5A059] animate-bounce"></i>
+                            Promemoria di Pagamento ed Adempimenti
+                        </h3>
+                        <span class="px-2 py-0.5 bg-[#C5A059]/10 text-[#C5A059] border border-[#C5A059]/20 rounded text-[9px] font-bold uppercase">
+                            Scadenziere Attivo
+                        </span>
+                    </div>
+
+                    <!-- Reminders Interactive Container -->
+                    <div id="remindersContainer" class="space-y-3">
+                        <!-- Dynamically filled with interactive checkbox / action button to record as expense -->
+                    </div>
+                </div>
+
+                <!-- Expenses Registry Directory Card -->
+                <div class="bg-[#161616] p-6 rounded-2xl border border-gold/15 shadow-xl space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/5 pb-3 gap-3">
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                            <i data-lucide="file-text" class="w-4 h-4 text-[#C5A059]"></i> 
+                            Storico Pagamenti e Spese Effettuate
+                        </h3>
+                        <button onclick="openAddExpense()" class="px-3 py-1.5 bg-[#C5A059]/10 hover:bg-[#C5A059]/20 border border-[#C5A059]/30 text-[#C5A059] hover:text-white text-xs font-bold rounded-xl uppercase tracking-wider transition cursor-pointer">
+                            + Aggiungi Voce Spesa
+                        </button>
+                    </div>
+
+                    <!-- Add Expense Form Block -->
+                    <div id="addExpensePanel" class="hidden p-4 bg-[#202020] rounded-xl border border-gold/15 space-y-3 text-xs">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[#A0A0A0] mb-1 font-medium">Titolo Spesa</label>
+                                <input type="text" id="newExpTitle" placeholder="es. Stipendio maggio" class="w-full bg-[#151515] text-white border border-gold/20 p-2.5 rounded-lg outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[#A0A0A0] mb-1 font-medium">Importo (€)</label>
+                                <input type="number" step="0.01" id="newExpAmount" placeholder="0.00" class="w-full bg-[#151515] text-white border border-gold/20 p-2.5 rounded-lg outline-none">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[#A0A0A0] mb-1 font-medium">Categoria della Spesa</label>
+                                <select id="newExpCategory" class="w-full bg-[#151515] text-white border border-gold/20 p-2.5 rounded-lg outline-none cursor-pointer">
+                                    <option value="stipendio">Stipendio Mensile</option>
+                                    <option value="contributi">Contributi INPS</option>
+                                    <option value="spesa_alimentare">Spesa Alimentare</option>
+                                    <option value="utenze_bollette">Utenze e SIM</option>
+                                    <option value="anticipi_extra">Anticipi / Extra (TFR, Varie)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[#A0A0A0] mb-1 font-medium">Data di Registrazione</label>
+                                <input type="date" id="newExpDate" class="w-full bg-[#151515] text-white border border-gold/20 p-2.5 rounded-lg outline-none">
+                            </div>
+                        </div>
+                        <div class="flex gap-2 justify-end pt-2">
+                            <button onclick="cancelAddExpense()" class="px-3.5 py-1.5 bg-[#2A2A2A] hover:bg-[#353535] text-white rounded-lg cursor-pointer">Annulla</button>
+                            <button onclick="saveNewExpense()" class="px-5 py-1.5 bg-[#C5A059] text-black font-black uppercase rounded-lg hover:opacity-95 cursor-pointer">Salva Spesa</button>
+                        </div>
+                    </div>
+
+                    <!-- Items Container Row Dynamic -->
+                    <div id="expensesContainer" class="divide-y divide-white/5 space-y-2">
+                        <!-- Dynamic generated -->
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripting Local Database Engine -->
+    <script>
+        // Set fallback values derived from state
+        const initialSettings = {"caregiverName":"Strus-Halyna","monthlySalary":1079,"monthlyBudget":1500,"hourlyRate":8.3,"weeklyHours":30,"contributionRate":1.05,"contractStartDate":"2026-06-01","currency":"€"};
+        const initialExpenses = [{"id":"1","title":"Contributi INPS Trimestre Q1 2026","amount":285.5,"category":"contributi","date":"2026-04-08","notes":"Pagamento bollettino postale per Q1 2026 (Gen-Mar)"},{"id":"2","title":"Stipendio Aprile Strus-Halyna","amount":1150,"category":"stipendio","date":"2026-04-30","notes":"Bonifico stipendio mensile ordinario"},{"id":"3","title":"Spesa Alimentari Eurospin","amount":62.3,"category":"spesa_alimentare","date":"2026-05-02","notes":"Acquisto generi prima necessità per la casa"},{"id":"4","title":"Farmacia Comunale - Sconto ricetta","amount":19.4,"category":"farmaci_salute","date":"2026-05-10","notes":"Pastiglie cuore e integratori ad alto dosaggio"},{"id":"5","title":"Ricarica telefonica SIM Strus-Halyna","amount":15,"category":"utenze_bollette","date":"2026-05-15","notes":"Per chiamate familiari estero"},{"id":"6","title":"Abbonamento mensile Autobus","amount":35,"category":"trasporti","date":"2026-05-18","notes":"Abbonamento urbano per uscite e commissioni"}];
+        const initialReminders = [{"id":"rem-1","title":"Stipendio mensile ordinario Strus-Halyna","amount":1079,"category":"stipendio","dueDate":"2026-06-30","frequency":"mensile","isActive":true,"notes":"Calcolato con 30 ore settimanali a €8.3/ora"},{"id":"rem-2","title":"Contributi INPS Trimestre Q2 2026","amount":410,"category":"contributi","dueDate":"2026-07-10","frequency":"trimestrale","isActive":true,"notes":"Quota INPS stimata a €1.05/ora per 30 ore/settimana"}];
+
+        // Initialize structures using robust HTML5 LocalStorage
+        let settings = JSON.parse(localStorage.getItem('caregiver_settings')) || initialSettings;
+        let expenses = JSON.parse(localStorage.getItem('caregiver_expenses')) || initialExpenses;
+        let reminders = JSON.parse(localStorage.getItem('caregiver_reminders')) || initialReminders;
+
+        // Ensure identifiers in reminders
+        reminders = reminders.map((r, index) => {
+            if(!r.id) r.id = 'rem-' + index;
+            return r;
+        });
+
+        function saveConfig() {
+            settings.caregiverName = document.getElementById('cfgName').value;
+            settings.monthlySalary = parseFloat(document.getElementById('cfgSalary').value) || 0;
+            settings.hourlyRate = parseFloat(document.getElementById('cfgHourRate').value) || 0;
+            settings.weeklyHours = parseInt(document.getElementById('cfgHours').value) || 0;
+            settings.contributionRate = parseFloat(document.getElementById('cfgInpsCoeff').value) || 1.05;
+
+            localStorage.setItem('caregiver_settings', JSON.stringify(settings));
+            renderUI();
+            alert("Impostazioni contrattuali salvate ed applicate con successo!");
+        }
+
+        function openAddExpense() {
+            document.getElementById('addExpensePanel').classList.remove('hidden');
+            document.getElementById('newExpDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('newExpTitle').focus();
+        }
+
+        function cancelAddExpense() {
+            document.getElementById('addExpensePanel').classList.add('hidden');
+        }
+
+        function saveNewExpense() {
+            const title = document.getElementById('newExpTitle').value;
+            const amount = parseFloat(document.getElementById('newExpAmount').value) || 0;
+            const category = document.getElementById('newExpCategory').value;
+            const date = document.getElementById('newExpDate').value;
+
+            if(!title || amount <= 0) {
+                alert("Completa i campi della spesa con titolo ed importo valido!");
+                return;
+            }
+
+            const item = {
+                id: 'exp-' + Math.random().toString(36).substring(2, 9),
+                title,
+                amount,
+                category,
+                date
+            };
+
+            expenses.unshift(item);
+            localStorage.setItem('caregiver_expenses', JSON.stringify(expenses));
+            
+            // Clear inputs
+            document.getElementById('newExpTitle').value = '';
+            document.getElementById('newExpAmount').value = '';
+            document.getElementById('addExpensePanel').classList.add('hidden');
+            
+            renderUI();
+        }
+
+        // Trigger action that settles a reminder, logs an expense, and updates due date
+        function settleReminder(id) {
+            const rem = reminders.find(r => r.id === id);
+            if(!rem) return;
+
+            // 1. Log payment inside Expenses list
+            const paymentItem = {
+                id: 'exp-' + Math.random().toString(36).substring(2, 9),
+                title: 'Saldato: ' + rem.title,
+                amount: rem.amount,
+                category: rem.title.toLowerCase().includes('inps') ? 'contributi' : 'stipendio',
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            expenses.unshift(paymentItem);
+            localStorage.setItem('caregiver_expenses', JSON.stringify(expenses));
+
+            // 2. Roll date for next period
+            const currentDueDateObj = new Date(rem.dueDate);
+            if (rem.frequency === 'mensile') {
+                currentDueDateObj.setMonth(currentDueDateObj.getMonth() + 1);
+            } else if (rem.frequency === 'trimestrale') {
+                currentDueDateObj.setMonth(currentDueDateObj.getMonth() + 3);
+            } else {
+                // One-time payment, deactivate
+                rem.isActive = false;
+            }
+            
+            // Update next due string
+            rem.dueDate = currentDueDateObj.toISOString().split('T')[0];
+
+            // Save state
+            localStorage.setItem('caregiver_reminders', JSON.stringify(reminders));
+            
+            renderUI();
+            alert("Pagamento registrato! Creato l'addebito nello storico ed aggiornato la data del prossimo rinnovo!");
+        }
+
+        function deleteExpense(id) {
+            if(confirm("Vuoi rimuovere permanentemente questa spesa registrata?")) {
+                expenses = expenses.filter(e => e.id !== id);
+                localStorage.setItem('caregiver_expenses', JSON.stringify(expenses));
+                renderUI();
+            }
+        }
+
+        function renderUI() {
+            const baseSalary = settings.monthlySalary;
+            
+            // Header
+            document.getElementById('lblCaregiverTag').textContent = settings.caregiverName || "Badante";
+            document.getElementById('lblMainStipendio').textContent = '€ ' + baseSalary.toLocaleString('it-IT', { minimumFractionDigits: 2 });
+            
+            // Accruals projections
+            document.getElementById('lblThirteenth').textContent = '€ ' + (baseSalary / 12).toLocaleString('it-IT', { minimumFractionDigits: 2 }) + '/mese';
+            document.getElementById('lblTfr').textContent = '€ ' + (baseSalary / 13.5).toLocaleString('it-IT', { minimumFractionDigits: 2 }) + '/mese';
+            
+            const hourlyRateVal = settings.hourlyRate || 8.5;
+            const weekHoursVal = settings.weeklyHours || 30;
+            const coeffVal = settings.contributionRate || 1.05;
+            const quarterlyInps = Math.round(weekHoursVal * 13 * coeffVal);
+            document.getElementById('lblInps').textContent = '€ ' + quarterlyInps.toLocaleString('it-IT', { minimumFractionDigits: 2 }) + '/trimestre';
+
+            // 1. ACTIVE REMINDERS LIST
+            const remContainer = document.getElementById('remindersContainer');
+            remContainer.innerHTML = '';
+
+            const activeReminders = reminders.filter(r => r.isActive !== false);
+
+            if(activeReminders.length === 0) {
+                remContainer.innerHTML = `
+                    <div class="text-center py-6 text-emerald-400 text-xs font-medium bg-[#1F1F1F] rounded-xl border border-emerald-500/10">
+                        🏆 Complimenti! Tutte le scadenze e gli adempimenti contrattuali sono in regola.
+                    </div>
+                `;
+            } else {
+                activeReminders.forEach(rem => {
+                    const today = new Date();
+                    today.setHours(0,0,0,0);
+                    const dueObj = new Date(rem.dueDate);
+                    dueObj.setHours(0,0,0,0);
+                    
+                    const diffDays = Math.ceil((dueObj.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+                    const isOverdue = diffDays < 0;
+                    const isUrgent = diffDays <= 7;
+                    
+                    const borderClass = isOverdue 
+                        ? 'border-red-500/40 bg-red-500/5' 
+                        : isUrgent 
+                            ? 'border-amber-500/40 bg-amber-500/5 animate-pulse' 
+                            : 'border-white/10 bg-[#1F1F1F]';
+
+                    const badgeText = isOverdue 
+                        ? `Scaduto da ${Math.abs(diffDays)} gg` 
+                        : diffDays === 0 
+                            ? 'Scade Oggi!' 
+                            : diffDays === 1 
+                                ? 'Scade Domani!' 
+                                : `Scade tra ${diffDays} giorni`;
+
+                    const badgeClass = isOverdue 
+                        ? 'bg-red-500/20 text-red-400 border border-red-500/40' 
+                        : isUrgent 
+                            ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' 
+                            : 'bg-[#C5A059]/20 text-[#C5A059] border border-[#C5A059]/30';
+
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = `p-4 rounded-xl border ${borderClass} flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all`;
+                    itemDiv.innerHTML = `
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="text-xs font-bold text-white uppercase tracking-wider">${rem.title}</span>
+                                <span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider ${badgeClass}">
+                                    ${badgeText}
+                                </span>
+                            </div>
+                            <p class="text-[10px] text-[#A0A0A0]">
+                                Scadenza: <strong class="text-white">${rem.dueDate.split('-').reverse().join('/')}</strong> 
+                                <span class="text-[#707070] italic">(${rem.frequency})</span>
+                            </p>
+                            ${rem.notes ? `<p class="text-[10px] text-[#707070] bg-[#101010]/50 px-2 py-1 rounded mt-1 font-mono">Note: ${rem.notes}</p>` : ''}
+                        </div>
+                        <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+                            <span class="text-lg font-mono font-bold text-[#C5A059]">€ ${rem.amount.toLocaleString('it-IT', {minimumFractionDigits: 2})}</span>
+                            <button onclick="settleReminder('${rem.id}')" class="px-3 py-1.5 bg-[#C5A059] hover:bg-[#D4B475] text-[#0F0F0F] text-[10px] font-black uppercase tracking-wider rounded-lg transition overflow-hidden cursor-pointer flex items-center gap-1">
+                                <i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i> SALDO
+                            </button>
+                        </div>
+                    `;
+                    remContainer.appendChild(itemDiv);
+                });
+            }
+
+            // 2. EXPENSES LIST
+            const container = document.getElementById('expensesContainer');
+            container.innerHTML = '';
+
+            const categoryLabels = {
+                stipendio: 'Stipendio',
+                contributi: 'Contributi INPS',
+                spesa_alimentare: 'Spesa Alimentare',
+                utenze_bollette: 'Bolletta',
+                anticipi_extra: 'Extra/TFR'
+            };
+
+            if(expenses.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-[#707070] text-xs font-light">
+                        Nessun movimento registrato. Clicca "+ Aggiungi Voce Spesa" per popolare il bilancio.
+                    </div>
+                `;
+            } else {
+                expenses.forEach(e => {
+                    const formattedDate = e.date ? e.date.split('-').reverse().join('/') : "Data non spec.";
+                    const child = document.createElement('div');
+                    child.className = "flex items-center justify-between py-3";
+                    child.innerHTML = `
+                        <div class="space-y-0.5 text-left">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-white">${e.title}</span>
+                                <span class="px-1.5 py-0.5 text-[8px] uppercase font-bold tracking-wider bg-gold-light text-gold border border-gold rounded">
+                                    ${categoryLabels[e.category] || e.category}
+                                </span>
+                            </div>
+                            <p class="text-[10px] text-[#707070]">${formattedDate}</p>
+                        </div>
+                        <div class="flex items-center gap-3.5">
+                            <span class="font-mono font-bold text-white">€ ${e.amount.toLocaleString('it-IT', {minimumFractionDigits: 2})}</span>
+                            <button onclick="deleteExpense('${e.id}')" class="text-red-400 hover:text-red-500 font-bold text-[10px] uppercase cursor-pointer">Elimina</button>
+                        </div>
+                    `;
+                    container.appendChild(child);
+                });
+            }
+
+            // Sync modern icons
+            try {
+                lucide.createIcons();
+            } catch(err) {
+                console.warn(err);
+            }
+        }
+
+        // Boot and startup
+        window.onload = function() {
+            renderUI();
+        };
+    </script>
+</body>
+</html>
